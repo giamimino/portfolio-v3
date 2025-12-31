@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --color-n-2: rgb(229, 229, 229);
+  --color-n-3: rgb(163, 163, 163);
+  --color-n-8: rgb(10, 10, 10);
+  --color-primary-border: rgb(20, 20, 20);
+  --color-brawn-60: #ae9b84;
+  --color-brown-70: #c2b4a3;
+  --color-brown-80: #a99888;
+  --color-dark-02: rgb(13, 13, 13);
+  --color-dark-03: rgb(17, 17, 17);
+  --color-dark-06: #0f0f0f;
+  --color-dark-10: #1a1a1a;
+  --color-dark-12: #1f1f1f;
+  --color-dark-15: #262626;
+  --color-dark-25: #404040;
+  --color-grey-10: #1b1b1a;
+  --color-grey-20: #2a2a29;
+  --color-grey-30: #484847;
+  --color-grey-40: #676665;
+  --color-grey-50: #858583;
+  --color-grey-60: #9c9c9a;
+  --color-grey-70: #b3b3b2;
+  --color-grey-80: #cbcbc9;
+  --color-grey-90: #e2e2e0;
+  --color-grey-100: #f5f5f3;
+  --color-orange-10: #d88488;
+  --color-c-8: #c8c8c8;
+  --color-b-9: #b9b9b9;
+  --color-1-b: #1b1b1b;
+  --color-a-3: #A3A3A3;
+  --color-1-b-active: #4b4b4b;
+  --animate-hideUpDown: fadeDown 0.4s ease forwards;
+  --color-scrollbar: oklch(27.4% 0.006 286.033);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scrollbar) transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.test {
+  color: #4b4b4b;
+}
+
+/* linear-gradient(45deg,#0000,#b6b6b61a,#0000,#b6b6b61a,#0000) 0 0/200% 200% */
+
+.landing-button {
+  color: #fff;
+  cursor: pointer;
+  z-index: 15;
+  text-shadow: 0 1px 2px #0000001a;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #303030, #b6b6b699) 0 0 / 200% 200%;
+  border: none;
+  border-radius: 50px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 1rem 1rem 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: 3s ease-in-out infinite alternate glow-pulse;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-arrow-circle {
+  width: 38px;
+  height: 38px;
+  background: #ffffffe6;
+  border-radius: 50%;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px #0000001a;
+  transition: all 0.3s;
+}
+
+.landing-button:hover {
+  box-shadow: 0 0 40px #35353566, 0 0 80px #0000004d, 0 8px 32px #0000004d;
+}
+
+body {
+  font-family: var(--font-google-sans-flex), system-ui, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+  background-color: var(--color-black);
+}
+
+.text-shadow-67 {
+  text-shadow: 0 0 5px #676767, 0 0 10px #676767;
+}
+
+/* animations */
+
+.animate-hideDown {
+  animation: fadeDown 1s ease forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.animate-upDown {
+  animation: upDown 0.7s ease-out forwards;
+  opacity: 1;
+}
+
+@keyframes glow-pulse {
+  0% {
+    filter: brightness() saturate();
+  }
+
+  100% {
+    filter: brightness(1.1) saturate(1.2);
+  }
+}
+
+@keyframes upDown {
+  0% {
+    opacity: 1;
+    transform: translateY();
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes fadeDown {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
