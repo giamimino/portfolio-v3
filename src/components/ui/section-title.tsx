@@ -12,7 +12,7 @@ export default function SectionTitle({
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, amount: 0.5 }}
       transition={{ duration: 0.3, type: "spring", stiffness: 50 }}
-      className="font-bold text-shadow-67 text-white text-center lg:max-w-212.5"
+      className="font-bold text-shadow-67 text-white text-center lg:max-w-212.5 leading-none"
       style={{
         fontSize: size ? `${size * 4}px` : `60px`
       }}

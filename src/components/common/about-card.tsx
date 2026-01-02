@@ -26,7 +26,7 @@ export default function AboutCard({
   return (
     <div
       onMouseMove={handleMouseMove}
-      className="border-4 border-primary-border flex flex-col gap-3.5 p-5 relative overflow-hidden group"
+      className="border-4 border-primary-border flex flex-col gap-3.5 p-5 relative group"
     >
       <h1 className="text-white text-3xl font-light">{title}</h1>
       <p className="text-c-8">{context}</p>

@@ -1,19 +1,29 @@
 "use client";
 import SectionTitle from "@/components/ui/section-title";
-import { Children } from "@/types/global";
+import {
+  EMPTY_VALUES_ERROR,
+  GENERIC_ERROR,
+  PROJECT_UPLOAD_SUCCESS,
+  TAG_ALREADY_EXIST_ERROR,
+} from "@/constants/message.constants";
+import { useNotificationsContext } from "@/context/NotificationsContext";
 import { Icon } from "@iconify/react";
+import cuid from "cuid";
+import { motion } from "framer-motion";
 import React, { useRef, useState } from "react";
 
 export const UploadMainComponent = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex w-full justify-center">
-      <button
+      <motion.button
+        animate={open ? { x: -100 } : { x: 0 }}
+        transition={{ type: "spring", stiffness: 140, damping: 20 }}
         onClick={() => setOpen((prev) => !prev)}
-        className="w-8 h-8 rounded-lg border border-white text-white flex justify-center items-center text-lg cursor-pointer"
+        className="w-8 h-8 rounded-lg border border-white z-10 text-white flex justify-center items-center text-lg cursor-pointer"
       >
         <Icon icon={"lucide:upload"} />
-      </button>
+      </motion.button>
       {open && <UploadContainer />}
     </div>
   );
@@ -22,11 +32,12 @@ export const UploadMainComponent = () => {
 export const UploadContainer = () => {
   const [tags, setTags] = useState<string[]>([]);
   const newTagRef = useRef<HTMLInputElement>(null);
+  const { addNotification } = useNotificationsContext();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleAddTag = (value: string) => {
     if (tags.some((t) => t.toLowerCase() === value.toLowerCase())) {
-      console.log("this tag already exist");
-
+      addNotification({ id: cuid(), text: TAG_ALREADY_EXIST_ERROR });
       return;
     }
     setTags((prev) => [...prev, value]);
@@ -50,12 +61,11 @@ export const UploadContainer = () => {
       !category.trim() ||
       !description.trim() ||
       !project_github_url.trim()
+    ) {
+      addNotification({ id: cuid(), text: EMPTY_VALUES_ERROR });
 
-    )
-      {
-        console.log("error");
-        
-        return};
+      return;
+    }
 
     const project_values = {
       type,
@@ -64,7 +74,7 @@ export const UploadContainer = () => {
       category,
       description,
       project_github_url,
-      tags
+      tags,
     };
     const response = await fetch("/api/project/upload", {
       method: "POST",
@@ -72,7 +82,11 @@ export const UploadContainer = () => {
       body: JSON.stringify({ project_values, tags }),
     });
     const result = await response.json();
-    console.log(result);
+    if (result.success) {
+      addNotification({ id: cuid(), text: PROJECT_UPLOAD_SUCCESS });
+    } else {
+      addNotification({ id: cuid(), text: GENERIC_ERROR });
+    }
   };
 
   const inputs = [
@@ -85,12 +99,9 @@ export const UploadContainer = () => {
   ];
 
   return (
-    <form
-      onSubmit={handleSubmitProject}
-      className="absolute top-1/2 left-1/2 -translate-1/2 flex flex-col max-w-75"
-    >
+    <div className="absolute top-1/2 left-1/2 -translate-1/2 flex flex-col max-w-75">
       <SectionTitle size={4}>Upload Project...</SectionTitle>
-      <div>
+      <form ref={formRef} onSubmit={handleSubmitProject}>
         {inputs.map((input, i) => (
           <div
             key={input.id}
@@ -115,7 +126,7 @@ export const UploadContainer = () => {
             )}
           </div>
         ))}
-      </div>
+      </form>
       <div
         className="flex flex-col gap-2.5 animate-hideUpDown opacity-0"
         style={{ animationDelay: `${(inputs.length + 1) / 10}s` }}
@@ -157,14 +168,18 @@ export const UploadContainer = () => {
         style={{
           animationDelay: `${(inputs.length + 2) / 10}s`,
         }}
-        type="submit"
+        onClick={() => {
+          if (formRef.current) {
+            formRef.current.requestSubmit();
+          }
+        }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
         <div className="relative z-10 text-white mix-blend-exclusion">
           submit
         </div>
       </button>
-    </form>
+    </div>
   );
 };
 

@@ -34,7 +34,7 @@ export default function AdminVerificationPage() {
       if (data.error) {
         addNotification({ id: cuid(), text: data.error });
       } else if(data.success) {
-        router
+        router.push("/admin/dashboard")
       }
     } catch (error) {
       console.error(error);
