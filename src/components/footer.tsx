@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <div className="bg-linear-to-tr from-white/7 via-transparent px-20 pt-20 pb-10 to-white/7 flex justify-center">
+    <div className="bg-linear-to-tr from-white/5 via-transparent mt-10 px-20 pt-20 pb-10 to-white/5 flex justify-center">
       <div className="flex flex-col max-w-150 items-center">
         <h1 className="text-white text-center text-shadow-67 text-5xl font-bold">
           Ready to take your digital presence to next level?

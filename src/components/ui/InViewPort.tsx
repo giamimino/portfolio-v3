@@ -1,7 +1,7 @@
 import { Children } from "@/types/global";
 import React, { useEffect, useRef, useState } from "react";
 
-export default function InViewPort({ children }: Children) {
+export default function InViewport({ children }: Children) {
   const [show, setShow] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null)
   useEffect(() => {

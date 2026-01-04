@@ -37,3 +37,8 @@ export type ContactItem =
       redirectUrl?: never;
       copyValue: string;
     };
+
+export interface ExpandablePanelPropsType {
+  open?: boolean,
+  title: string,
+}

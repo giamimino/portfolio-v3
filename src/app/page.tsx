@@ -3,6 +3,7 @@ import AboutCard from "@/components/common/about-card";
 import Contact from "@/components/common/Contact";
 import Section from "@/components/common/section";
 import WelcomeGreet from "@/components/hero/hero-welcome";
+import { ExpandablePanel, ExpandablePanelContainer } from "@/components/templates/expandable-panel";
 import {
   Category,
   ProjectsConainer,
@@ -167,7 +168,11 @@ export default function Home() {
             </p> */}
           </div>
         </div>
-        <div></div>
+        <div className="my-18 flex justify-center">
+          <ExpandablePanelContainer>
+            <ExpandablePanel title="Title" />
+          </ExpandablePanelContainer>
+        </div>
         <Contact />
       </Section>
     </div>

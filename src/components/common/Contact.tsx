@@ -1,6 +1,7 @@
 import { ContactsSocial } from "@/constants/contacts.constant";
 import { Icon } from "@iconify/react";
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Contact() {
   const [isCopy, setIsCopy] = useState<string>("");
@@ -27,7 +28,7 @@ export default function Contact() {
   }, [isCopy]);
 
   return (
-    <div className="border-[0.5px] border-white/10 w-full flex flex-wrap">
+    <div className="border-[0.5px] border-white/10 w-full flex flex-wrap transition-all duration-300">
       {ContactsSocial.map((c) => (
         <div
           key={`${c.provider}-${c.account}`}
