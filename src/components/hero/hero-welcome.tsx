@@ -8,7 +8,7 @@ export default function WelcomeGreet() {
   return (
     <motion.div
       key={"Welcome"}
-      className="text-6xl flex w-full h-full bg-black justify-center items-center text-white font-bold"
+      className="text-6xl md:text-7xl lg:text-8xl flex w-full h-full bg-black justify-center items-center text-white font-bold"
     >
       <h1 className="flex flex-wrap gap-2.5 text-shadow-67 justify-center">
         {words.map((w, idx) => (

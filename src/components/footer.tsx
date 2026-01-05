@@ -4,7 +4,54 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <div className="bg-linear-to-tr from-white/5 via-transparent mt-10 px-20 pt-20 pb-10 to-white/5 flex justify-center">
+    <div className="bg-linear-to-tr from-white/5 overflow-hidden via-transparent px-20 pt-20 pb-10 to-white/5 flex justify-center relative">
+      <div className="absolute top-5 left-23 rotate-[70deg]">
+        <div
+          className="absolute left-0 top-0 h-0.5 w-20 
+          rounded-full bg-[linear-gradient(-45deg,rgba(255,255,255,0.2),rgba(0,0,255,0.1))] 
+          drop-shadow-[0_0_6px_#fff] animate-starFalling"
+        ></div>
+        <div
+          className="absolute left-10 top-10 h-0.5 w-20 
+          rounded-full bg-[linear-gradient(-45deg,rgba(255,255,255,0.2),rgba(0,0,255,0.1))] 
+          drop-shadow-[0_0_6px_#fff] animate-starFalling"
+          style={{
+            animationDelay: "1s"
+          }}
+        ></div>
+        <div
+          className="absolute -left-15 -top-15 h-0.5 w-20 
+          rounded-full bg-[linear-gradient(-45deg,rgba(255,255,255,0.2),rgba(0,0,255,0.1))] 
+          drop-shadow-[0_0_6px_#fff] animate-starFalling"
+          style={{
+            animationDelay: "1.2s"
+          }}
+        ></div>
+        <div
+          className="absolute -left-10 top-30 h-0.5 w-20 
+          rounded-full bg-[linear-gradient(-45deg,rgba(255,255,255,0.2),rgba(0,0,255,0.1))] 
+          drop-shadow-[0_0_6px_#fff] animate-starFalling"
+          style={{
+            animationDelay: "1.4s"
+          }}
+        ></div>
+        <div
+          className="absolute left-2 -top-5 h-0.5 w-20 
+          rounded-full bg-[linear-gradient(-45deg,rgba(255,255,255,0.2),rgba(0,0,255,0.1))] 
+          drop-shadow-[0_0_6px_#fff] animate-starFalling"
+          style={{
+            animationDelay: "1.6s"
+          }}
+        ></div>
+        <div
+          className="absolute left-2 -top-50 h-0.5 w-20 
+          rounded-full bg-[linear-gradient(-45deg,rgba(255,255,255,0.2),rgba(0,0,255,0.1))] 
+          drop-shadow-[0_0_6px_#fff] animate-starFalling"
+          style={{
+            animationDelay: "1.2s"
+          }}
+        ></div>
+      </div>
       <div className="flex flex-col max-w-150 items-center">
         <h1 className="text-white text-center text-shadow-67 text-5xl font-bold">
           Ready to take your digital presence to next level?

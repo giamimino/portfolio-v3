@@ -18,9 +18,7 @@ export default function Section({
   };
 
   return (
-    <div
-      className="border border-primary-border px-24 py-20 max-lg:px-2 max-lg:py-14 max-md:py-10 max-sm:py-6 max-xs:py-2 relative"
-    >
+    <div className="border border-primary-border px-24 py-20 max-lg:px-2 max-lg:py-14 max-md:py-10 max-sm:py-6 max-xs:py-2 relative">
       {showIcons.tl && (
         <span className="text-sm z-10 absolute top-[-7.5px] left-[-7.5px] text-n-3">
           <Icon icon="mingcute:plus-fill" />

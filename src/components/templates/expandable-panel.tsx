@@ -2,15 +2,14 @@ import { Children, ExpandablePanelPropsType } from "@/types/global";
 import { Icon } from "@iconify/react";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { Flamenco } from "next/font/google";
 import React, { useState } from "react";
 
 export const ExpandablePanelContainer = React.memo(({ children }: Children) => {
-  return <div className="w-2/3 flex flex-col">{children}</div>;
+  return <div className="w-2/3 max-lg:w-4/5 flex flex-col">{children}</div>;
 });
 
 export const ExpandablePanel = React.memo(
-  ({ open, title }: ExpandablePanelPropsType) => {
+  ({ open, title, description }: ExpandablePanelPropsType) => {
     const [isOpen, setOpen] = useState(open ?? false);
 
     const toggle = () => {
@@ -21,6 +20,7 @@ export const ExpandablePanel = React.memo(
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3}}
         layout
         className="border-b border-white/10 py-4 w-full"
       >
@@ -47,16 +47,38 @@ export const ExpandablePanel = React.memo(
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden w-full"
+              transition={{ duration: 0.3, delay: 0.05 }}
+              className="origin-top overflow-hidden w-full"
             >
-              <p className="text-grey-70">
-                I'm someone who enjoys exploring the way things work—from the
-                tiniest patterns in nature to the biggest ideas in science and
-                creativity. Curiosity is a huge part of my identity, and I’m
-                always drawn to things that challenge me or open up new ways of
-                thinking.
-              </p>
+              <div className="text-grey-70">
+                {Array.isArray(description) ? (
+                  <div className="flex flex-col justify-start items-start">
+                    {description.map((d, i) => (
+                      <div
+                        key={i}
+                        className="flex"
+                      >
+                        <span>
+                          <Icon icon="mdi:dot" className="text-xl self-start" />
+                        </span>
+                        <p>
+                          {d
+                            .split(/``(.*?)``/g)
+                            .map((part, i) =>
+                              i % 2 === 1 ? (
+                                <span className="font-bold" key={`part-${i}`}>{part}</span>
+                              ) : (
+                                part
+                              )
+                            )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  description
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

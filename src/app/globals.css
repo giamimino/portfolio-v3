@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* colors */
   --color-n-2: rgb(229, 229, 229);
   --color-n-3: rgb(163, 163, 163);
   --color-n-8: rgb(10, 10, 10);
@@ -31,8 +32,15 @@
   --color-1-b: #1b1b1b;
   --color-a-3: #a3a3a3;
   --color-1-b-active: #4b4b4b;
-  --animate-hideUpDown: fadeDown 0.4s ease forwards;
   --color-scrollbar: oklch(27.4% 0.006 286.033);
+  --color-secondary-border: #131313;
+
+  /* animations */
+  --animate-hideUpDown: fadeDown 0.4s ease forwards;
+  --animate-starFalling: tail 3s ease-in-out infinite,
+    falling 3s ease-in-out infinite;
+
+  /* breakpoints */
   --breakpoint-xs: 30rem;
 }
 
@@ -117,6 +125,19 @@ body {
   opacity: 1;
 }
 
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* keyframes */
+
 @keyframes glow-pulse {
   0% {
     filter: brightness() saturate();
@@ -146,5 +167,39 @@ body {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes shining {
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 30px;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes falling {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(300px);
+  }
+}
+
+@keyframes tail {
+  0% {
+    width: 0;
+  }
+  30% {
+    width: 100px;
+  }
+  100% {
+    width: 0;
   }
 }

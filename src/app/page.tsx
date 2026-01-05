@@ -1,25 +1,32 @@
 "use client";
+import CanvasIntro from "@/components/CanvasIntro";
 import AboutCard from "@/components/common/about-card";
 import Contact from "@/components/common/Contact";
 import Section from "@/components/common/section";
+import Hero from "@/components/hero/hero";
 import WelcomeGreet from "@/components/hero/hero-welcome";
-import { ExpandablePanel, ExpandablePanelContainer } from "@/components/templates/expandable-panel";
+import {
+  ExpandablePanel,
+  ExpandablePanelContainer,
+} from "@/components/templates/expandable-panel";
 import {
   Category,
   ProjectsConainer,
   ProjectWrapper,
 } from "@/components/templates/project-components";
+import InViewport from "@/components/ui/InViewPort";
 import SectionTitle from "@/components/ui/section-title";
 import TagLine from "@/components/ui/tag-line";
 import { Categories } from "@/constants/category.constants";
 import { useNotificationsContext } from "@/context/NotificationsContext";
-import { Project } from "@/types/firestore";
+import { ExpPanelABout, Project } from "@/types/firestore";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
-  const [projects, setProjects] = useState<Project[]>();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [expPanelData, setExpPanelData] = useState<ExpPanelABout[]>([]);
   const [selectedCategory, selectCategory] = useState<{
     key: string;
     label: string;
@@ -31,7 +38,13 @@ export default function Home() {
       .then((data) => {
         if (data.success) {
           setProjects(data.docs);
-          console.log(data);
+        }
+      });
+    fetch("/api/about/expanel/get")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setExpPanelData(data.docs);
         }
       });
   }, []);
@@ -54,7 +67,29 @@ export default function Home() {
 
   return (
     <div className="flex flex-col px-12 max-md:px-6 max-sm:px-3">
-      <section className="pt-20 flex flex-col gap-10 mb-12">
+      <section className="mt-32 pb-20 flex flex-col gap-10 mb-12 relative w-full">
+        <div className="absolute w-full h-full -top-20 left-0 overflow-hidden">
+        <CanvasIntro />
+
+        </div>
+        <Hero
+          icons={[
+            "devicon:react",
+            "skill-icons:typescript",
+            "material-icon-theme:git",
+            "skill-icons:tailwindcss-light",
+          ]}
+          directions={{t: -20, l: 0}}
+        />
+        <Hero
+          icons={[
+            "material-icon-theme:prisma",
+            "devicon:reactnative",
+            "vscode-icons:file-type-expo",
+            "material-icon-theme:nodejs",
+          ]}
+          directions={{b: -20, r: 1}}
+        />
         <WelcomeGreet />
         <div className="opacity-0 animate-hideDown">
           <p className="text-shadow-67 text-xl md:text-2xl text-n-2 text-center">
@@ -76,9 +111,7 @@ export default function Home() {
               animationDelay: "0.4s",
             }}
           >
-            <div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
-            ></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
             <div className="relative z-10 text-white mix-blend-exclusion text-lg font-medium">
               Let's connect
             </div>
@@ -133,18 +166,20 @@ export default function Home() {
           ))}
         </div>
         <div className="h-10"></div>
-        <ProjectsConainer>
-          {filteredProjects.map((p, idx) => (
-            <ProjectWrapper
-              key={p.project_id}
-              {...p}
-              category={
-                Categories[p.category.split(" ").join("").toLowerCase()]
-              }
-              delay={idx / 6}
-            />
-          ))}
-        </ProjectsConainer>
+        <InViewport>
+          <ProjectsConainer>
+            {filteredProjects.map((p, idx) => (
+              <ProjectWrapper
+                key={p.project_id}
+                {...p}
+                category={
+                  Categories[p.category.split(" ").join("").toLowerCase()]
+                }
+                delay={idx / 6}
+              />
+            ))}
+          </ProjectsConainer>
+        </InViewport>
         <p className="text-grey-70/60 text-sm text-center mt-8">{`Showing ${filteredProjects.length} projects`}</p>
       </Section>
       <Section>
@@ -156,21 +191,15 @@ export default function Home() {
               I learn fast and work productively, focusing on constant
               improvement rather than wasting time.
             </p>
-            {/* <p className="text-grey-70 text-center max-w-125 text-shadow-67">
-              I'm someone who enjoys exploring the way things work—from the
-              tiniest patterns in nature to the biggest ideas in science and
-            </p>
-            <p className="text-grey-70 text-center max-w-125 text-shadow-67">
-              creativity. Curiosity is a huge part of my identity, and I’m
-              always drawn to things that challenge me or open up new ways of
-              thinking.
-
-            </p> */}
           </div>
         </div>
-        <div className="my-18 flex justify-center">
+        <div className="mt-18 mb-40 flex justify-center">
           <ExpandablePanelContainer>
-            <ExpandablePanel title="Title" />
+            {expPanelData.map((ep, i) => (
+              <InViewport key={ep.docId}>
+                <ExpandablePanel {...ep} open={i === 0} />
+              </InViewport>
+            ))}
           </ExpandablePanelContainer>
         </div>
         <Contact />

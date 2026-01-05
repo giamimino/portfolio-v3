@@ -32,7 +32,7 @@ export default function Contact() {
       {ContactsSocial.map((c) => (
         <div
           key={`${c.provider}-${c.account}`}
-          className="p-6 text-white flex items-center gap-6 border-[0.5px] border-white/10 w-1/2 cursor-pointer hover:bg-white/3 transition-all group relative"
+          className="p-6 max-md:p-4 max-sm:p-2 text-white flex items-center gap-6 border-[0.5px] border-white/10 w-1/2 cursor-pointer hover:bg-white/3 transition-all group relative"
           onClick={() =>
             handleClick(
               c.type,
@@ -42,11 +42,11 @@ export default function Contact() {
           }
         >
           <Icon icon={c.icon} className="text-3xl" />
-          <div className="flex flex-col">
+          <div className="flex flex-col  w-2/3">
             <h1 className="font-semibold text-lg">{c.provider}</h1>
-            <p className="text-grey-70 text-[14px]">{c.account}</p>
+            <p className="text-grey-70 text-[14px] truncate">{c.account}</p>
           </div>
-          <div className="absolute right-6">
+          <div className="absolute right-6 max-md:right-4 max-sm:right-2">
             {`${c.provider}-${c.account}` !== isCopy && (
               <Icon
                 icon={c.type === "redirect" ? "ooui:arrow-down" : "lucide:copy"}

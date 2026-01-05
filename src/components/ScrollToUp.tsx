@@ -34,9 +34,9 @@ export default function ScrollToUp() {
   if (show) return null;
   return (
     <div
-      className="fixed right-3 bottom-3 w-12 h-12 bg-white/5 
-    flex justify-center items-center border border-white/20 
-    backdrop-blur-sm rounded-full text-white/60 text-2xl cursor-pointer hover:bg-white/1"
+      className="fixed right-3 bottom-3 w-12 h-12 bg-transparent
+    flex justify-center items-center border border-white/20 z-10
+    backdrop-blur-xs rounded-full text-white/60 text-2xl cursor-pointer hover:bg-white/1"
     onClick={handleClick}
     >
       <Icon icon={"majesticons:arrow-up"} />

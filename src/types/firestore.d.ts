@@ -11,3 +11,9 @@ export interface Project {
   tags: string[]
   created_at: Timestamp
 }
+
+export interface ExpPanelABout {
+  title: string,
+  description: string | string[],
+  docId: string
+}

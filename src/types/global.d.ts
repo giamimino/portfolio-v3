@@ -41,4 +41,5 @@ export type ContactItem =
 export interface ExpandablePanelPropsType {
   open?: boolean,
   title: string,
+  description?: string | string[]
 }
