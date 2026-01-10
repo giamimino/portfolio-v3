@@ -99,7 +99,7 @@ export const UploadContainer = () => {
   ];
 
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-1/2 flex flex-col max-w-75">
+    <div className="flex flex-col max-w-75">
       <SectionTitle size={4}>Upload Project...</SectionTitle>
       <form ref={formRef} onSubmit={handleSubmitProject}>
         {inputs.map((input, i) => (

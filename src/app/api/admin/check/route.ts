@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     const valid = await bcrypt.compare(trimmedKey, ADMIN_KEY_HASH);
     if (!valid) return NextResponse.json({ error: "Invalid key" }, { status: 401 });
 
-    const expires = new Date(Date.now() + 1000 * 60 * 60 * 12); // 12 hours
+    const expires = new Date(Date.now() + 1000 * 60 * 60 * 12);
     const session = await prisma.adminSession.create({ data: { expiresAt: expires } });
 
     (await cookies()).set("admin_session", session.id, {

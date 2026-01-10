@@ -64,6 +64,7 @@ export default function Home() {
 
     return [];
   }, [projects, selectedCategory]);
+  
 
   return (
     <div className="flex flex-col px-12 max-md:px-6 max-sm:px-3">

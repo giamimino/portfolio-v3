@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue } from "framer-motion";
-import { Flamenco } from "next/font/google";
+import { motion } from "framer-motion";
 
 export default function Hero({
   icons,
@@ -49,12 +48,11 @@ export default function Hero({
         x: { type: "spring", stiffness: 50 },
         opacity: { type: "spring", stiffness: 50 },
       }}
-      className="px-1.5 py-1 rounded-full absolute z-10 
-      bg-transparent backdrop-blur-sm border border-secondary-border"
+      className="px-1.5 py-1 rounded-full absolute z-10 bg-transparent backdrop-blur-sm border border-secondary-border"
     >
       <div className="flex">
         {icons.map((icon) => (
-          <span className="text-xl p-3">
+          <span key={icon} className="text-xl p-3">
             <Icon icon={icon} />
           </span>
         ))}
