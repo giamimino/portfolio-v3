@@ -4,8 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 export default function InViewport({ children, animate }: Children & { animate?: boolean}) {
   const [show, setShow] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  console.log(show);
-
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {

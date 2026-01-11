@@ -196,7 +196,7 @@ export default function Home() {
         </div>
         <div className="mt-18 mb-40 flex justify-center">
           <ExpandablePanelContainer>
-            {expPanelData.map((ep, i) => (
+            {expPanelData.sort((a, b) => Number(a.level) - Number(b.level)).map((ep, i) => (
               <InViewport key={ep.docId}>
                 <ExpandablePanel {...ep} open={i === 0} />
               </InViewport>

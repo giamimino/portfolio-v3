@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
+  AboutUpload,
   UploadContainer,
   UploadMainComponent,
 } from "./project-upload-components";
@@ -50,9 +51,9 @@ export default function page() {
         <div className="flex justify-center">
         <SectionTitle>Upload</SectionTitle>
         </div>
-        <div className="mt-10">
+        <div className="mt-10 flex gap-2.5">
         <UploadContainer />
-
+        <AboutUpload />
         </div>
       </Section>
       <div className="h-50"></div>
@@ -61,7 +62,7 @@ export default function page() {
         <div className="mt-10">
           <ProjectsConainer>
             {projects.map((p, idx) => (
-              <div className="">
+              <div className="relative">
                 <ProjectWrapper
                   {...p}
                   category={
@@ -69,6 +70,7 @@ export default function page() {
                   }
                   delay={idx / 6}
                 />
+                <button className="absolute left-0 top-0 text-red-600 cursor-pointer">Delete</button>
               </div>
             ))}
           </ProjectsConainer>

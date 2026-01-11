@@ -217,3 +217,102 @@ export const ProjectInput = ({
     />
   );
 };
+
+export const AboutUpload = () => {
+  const { addNotification } = useNotificationsContext();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get("title") as string;
+    const text = formData.get("text") as string;
+
+    if (
+      !title.trim() ||
+      !text.trim()
+    ) {
+      addNotification({ id: cuid(), text: EMPTY_VALUES_ERROR });
+
+      return;
+    }
+
+    const values = {
+      title,
+      text,
+    };
+    const response = await fetch("/api/about/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ values }),
+    });
+    const result = await response.json();
+    if (result.success) {
+      addNotification({ id: cuid(), text: PROJECT_UPLOAD_SUCCESS });
+    } else {
+      addNotification({ id: cuid(), text: GENERIC_ERROR });
+    }
+  };
+
+  const inputs = [
+    { id: "title", label: "title", type: "input" },
+    { id: "text", label: "text", type: "textarea" },
+  ];
+
+  return (
+    <div className="flex flex-col max-w-75">
+      <SectionTitle size={4}>Upload About...</SectionTitle>
+      <form ref={formRef} onSubmit={handleSubmit}>
+        {inputs.map((input, i) => (
+          <div
+            key={input.id}
+            className="relative w-full animate-hideUpDown opacity-0"
+            style={{ animationDelay: `${i / 10}s` }}
+          >
+            <label
+              className="px-0.75 z-1 text-white relative text-xs rounded-sm top-2.5 ml-1.5 w-fit font-bold bg-black"
+              htmlFor={input.id}
+            >
+              {input.label}
+            </label>
+            {input.type === "input" ? (
+              <ProjectInput id={input.id} />
+            ) : (
+              <textarea
+                name={input.id}
+                className="py-2 px-1.5 flex w-full text-grey-70 bg-black border border-white rounded-sm"
+                rows={5}
+                id={input.id}
+              />
+            )}
+          </div>
+        ))}
+      </form>
+      <button
+        className="p-3 rounded-2xl backdrop-blur-lg border 
+      border-white/10 from-black/60 
+      to-black/40 shadow-lg hover:shadow-2xl 
+      hover:shadow-white/20 hover:scale-110 hover:rotate-1 
+      active:scale-95 active:rotate-0 transition-all 
+      duration-300 ease-out cursor-pointer 
+      hover:border-white/30 hover:bg-linear-to-tr 
+      hover:from-white/10 hover:to-black/40 group 
+      relative overflow-hidden  mt-2.5 animate-hideUpDown opacity-0"
+        style={{
+          animationDelay: `${(inputs.length + 2) / 10}s`,
+        }}
+        onClick={() => {
+          if (formRef.current) {
+            formRef.current.requestSubmit();
+          }
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
+        <div className="relative z-10 text-white mix-blend-exclusion">
+          submit
+        </div>
+      </button>
+    </div>
+  );
+};
