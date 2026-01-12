@@ -1,4 +1,3 @@
-import { useScroll, useTransform } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
 export default function TableOfContents({

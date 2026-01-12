@@ -60,7 +60,7 @@ export default function Header() {
           <nav className="flex items-center gap-3">
             {tabs.map(({ label, id }) => (
               <div
-                key={id}
+                key={`${id}-wrapper`}
                 className={`${
                   pathname.startsWith(`/${id}`) ? "" : "hover:text-white/50"
                 } text-sm relative py-1.5 px-3 cursor-pointer`}

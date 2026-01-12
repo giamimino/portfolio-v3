@@ -6,13 +6,15 @@ export default function Section({
   children,
   noIcons,
   w,
-  hFull
+  hFull,
+  customResponsivePedding
 }: Children & {
   noIcons?:
     | { tr?: boolean; tl?: boolean; bl?: boolean; br?: boolean }
     | boolean;
     w?: string;
-    hFull?: boolean
+    hFull?: boolean,
+    customResponsivePedding?: string
 }) {
   const showIcons = {
     tl: !(typeof noIcons === "object" ? noIcons.tl : noIcons === true),
@@ -21,8 +23,10 @@ export default function Section({
     br: !(typeof noIcons === "object" ? noIcons.br : noIcons === true),
   };
 
+  const responsivePedding = customResponsivePedding ?? "px-24 py-20 max-lg:px-2 max-lg:py-14 max-md:py-10 max-sm:py-6 max-xs:py-2"
+
   return (
-    <div className={`border ${!w && "w-full"} ${hFull && "h-full"} border-primary-border px-24 py-20 max-lg:px-2 max-lg:py-14 max-md:py-10 max-sm:py-6 max-xs:py-2 relative`} style={{
+    <div className={`border ${!w && "w-full"} ${hFull && "h-full"} border-primary-border ${responsivePedding} relative`} style={{
       width: w
     }}>
       {showIcons.tl && (

@@ -28,7 +28,7 @@ export default function AboutPage() {
           addNotification({ id: cuid(), text: GENERIC_ERROR });
         }
       });
-  }, []);
+  }, [addNotification]);
 
   const section: { id: string; title: string }[] | undefined = useMemo(() => {
     if (about.length === 0) return;
@@ -89,11 +89,11 @@ export default function AboutPage() {
           </MouseProvider>
         </div>
         <aside className="w-1/4 h-full sticky top-15">
-            <Section hFull>
-              {section && section.length > 0 && (
-                <TableOfContents sections={section} />
-              )}
-            </Section>
+          <Section hFull>
+            {section && section.length > 0 && (
+              <TableOfContents sections={section} />
+            )}
+          </Section>
         </aside>
       </div>
     </div>

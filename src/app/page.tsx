@@ -18,7 +18,6 @@ import InViewport from "@/components/ui/InViewPort";
 import SectionTitle from "@/components/ui/section-title";
 import TagLine from "@/components/ui/tag-line";
 import { Categories } from "@/constants/category.constants";
-import { useNotificationsContext } from "@/context/NotificationsContext";
 import { ExpPanelABout, Project } from "@/types/firestore";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
@@ -97,7 +96,7 @@ export default function Home() {
             A Fullstack Web Developer & ReactNative developer
           </p>
           <p className="text-shadow-67 italic text-lg md:text-xl text-n-3 text-center block">
-            "Writing better code than AI"
+            {`"Writing better code than AI"`}
           </p>
         </div>
         <div className="w-full flex justify-center">
@@ -114,7 +113,7 @@ export default function Home() {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
             <div className="relative z-10 text-white mix-blend-exclusion text-lg font-medium">
-              Let's connect
+              {`Let's`} connect
             </div>
             <div className="button-arrow-circle group-hover:text-xl">
               <Icon icon={"mingcute:right-fill"} />
