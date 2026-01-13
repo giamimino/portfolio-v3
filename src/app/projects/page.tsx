@@ -1,4 +1,5 @@
 "use client";
+import { FilterWrapper } from "@/components/common/filter-components";
 import Section from "@/components/common/section";
 import {
   ProjectsConainer,
@@ -10,40 +11,14 @@ import { GENERIC_ERROR } from "@/constants/message.constants";
 import { useNotificationsContext } from "@/context/NotificationsContext";
 import { Project } from "@/types/firestore";
 import cuid from "cuid";
-import React, { useEffect, useState } from "react";
-
-const FilterWrapper = () => {
-  const [active, setActive] = useState(false);
-  return (
-    <div className="mt-2">
-      <div className="flex gap-2.5 items-center">
-        <div
-          className={`p-0.5 w-6 h-3.5 ${
-            active ? "bg-grey-30" : "bg-grey-20"
-          } transition-all duration-500 rounded-full cursor-pointer relative overflow-hidden`}
-          onClick={() => setActive((prev) => !prev)}
-        >
-          <span
-            className={`w-2.5 h-2.5 rounded-full inline-block absolute ${
-              active
-                ? "top-0.5 left-3 bg-white"
-                : "top-0.5 left-[2.5px] bg-white/70"
-            } transition-all duration-500`}
-          ></span>
-        </div>
-        <button
-          className="text-blue-50 font-medium cursor-pointer"
-          onClick={() => setActive((prev) => !prev)}
-        >
-          Client
-        </button>
-      </div>
-    </div>
-  );
-};
+import Image from "next/image";
+import React, { useEffect, useMemo, useState } from "react";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [filters, setFilters] = useState<
+    { filter: string; type: "type" | "category" | "languages" }[]
+  >([]);
   const { addNotification } = useNotificationsContext();
 
   useEffect(() => {
@@ -58,6 +33,77 @@ export default function ProjectsPage() {
       });
   }, [addNotification]);
 
+  const filteredProjects = useMemo(() => {
+    if (filters.length === 0) return projects;
+
+    const typeFilter = filters.find((f) => f.type === "type")?.filter ?? null;
+    const categoriesFilter = new Set(
+      filters
+        .filter((f) => f.type === "category")
+        .map((f) => f.filter.toLowerCase())
+    );
+
+    const languagesFilter = new Set(
+      filters
+        .filter((f) => f.type === "languages")
+        .map((f) => f.filter.toLowerCase())
+    );
+
+    return projects.filter((f) => {
+      const normalizedCategory = f.category.replace(" ", "").toLowerCase();
+      const normalizedTags = f.tags.map((t) =>
+        t.replace(" ", "").toLowerCase()
+      );
+
+      if (typeFilter && f.type !== typeFilter) return false;
+
+      if (categoriesFilter.size && !categoriesFilter.has(normalizedCategory))
+        return false;
+
+      if (
+        languagesFilter.size &&
+        !normalizedTags.some((t) => languagesFilter.has(t))
+      )
+        return false;
+
+      return true;
+    });
+  }, [filters, projects]);
+
+  const additionalFilters:
+    | {
+        id: string;
+        label: string;
+        type: "type" | "category" | "languages";
+      }[]
+    | undefined = useMemo(() => {
+    if (projects.length === 0) return undefined;
+
+    const categories: {
+      id: string;
+      label: string;
+      type: "type" | "category" | "languages";
+    }[] = [...new Set(projects.map((p) => p.category))].map((p) => ({
+      id: p.replace(" ", "").toLowerCase(),
+      label: p,
+      type: "category",
+    }));
+
+    const languages: {
+      id: string;
+      label: string;
+      type: "type" | "category" | "languages";
+    }[] = [...new Set(projects.map((p) => p.tags).flatMap((p) => p))].map(
+      (p) => ({
+        id: p.replace(" ", "").toLowerCase(),
+        label: p,
+        type: "languages",
+      })
+    );
+
+    return [...categories, ...languages];
+  }, [projects]);
+
   return (
     <div className="px-4 pt-5">
       <div className="flex">
@@ -67,26 +113,46 @@ export default function ProjectsPage() {
               <SectionTitle>Projects</SectionTitle>
             </div>
             <ProjectsConainer>
-              {projects.map((p, idx) => (
-                <ProjectWrapper
-                  {...p}
-                  key={p.project_id}
-                  category={
-                    Categories[p.category.replace(" ", "").toLowerCase()]
-                  }
-                  delay={idx / 6}
-                />
-              ))}
+              {filteredProjects.length !== 0 ? (
+                filteredProjects.map((p, idx) => (
+                  <ProjectWrapper
+                    {...p}
+                    key={p.project_id}
+                    category={
+                      Categories[p.category.replace(" ", "").toLowerCase()]
+                    }
+                    delay={idx / 6}
+                  />
+                ))
+              ) : (
+                <div className="flex flex-col gap-3.5 justify-center items-center">
+                  <Image
+                    src={"/search_icon.png"}
+                    width={64}
+                    height={64}
+                    alt="search_icon"
+                  />
+                  <div className="flex flex-col justify-center items-center">
+                    <h1 className="text-white text-2xl font-semibold">
+                      No Projects Found.
+                    </h1>
+                    <p className="text-white/60">
+                      Try selecting a different category.
+                    </p>
+                  </div>
+                </div>
+              )}
             </ProjectsConainer>
           </Section>
         </div>
         <aside className={`sticky top-15 w-1/4 h-full`}>
           <Section customResponsivePedding="px-12 max-lg:px-10 max-md:px-2 py-18 max-lg:py-12 max-md:py-8 max-sm:py-4 max-xs:py-2">
-            <div className="flex justify-start">
-              <SectionTitle size={6}>Filter</SectionTitle>
-            </div>
             <div>
-              <FilterWrapper />
+              <FilterWrapper
+                additionalFilters={additionalFilters}
+                filter={filters}
+                onChange={setFilters}
+              />
             </div>
           </Section>
         </aside>

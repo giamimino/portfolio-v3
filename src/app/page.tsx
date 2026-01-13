@@ -63,14 +63,12 @@ export default function Home() {
 
     return [];
   }, [projects, selectedCategory]);
-  
 
   return (
     <div className="flex flex-col px-12 max-md:px-6 max-sm:px-3">
       <section className="mt-32 pb-20 flex flex-col gap-10 mb-12 relative w-full">
         <div className="absolute w-full h-full -top-20 left-0 overflow-hidden">
-        <CanvasIntro />
-
+          <CanvasIntro />
         </div>
         <Hero
           icons={[
@@ -79,7 +77,7 @@ export default function Home() {
             "material-icon-theme:git",
             "skill-icons:tailwindcss-light",
           ]}
-          directions={{t: -20, l: 0}}
+          directions={{ t: -20, l: 0 }}
         />
         <Hero
           icons={[
@@ -88,7 +86,7 @@ export default function Home() {
             "vscode-icons:file-type-expo",
             "material-icon-theme:nodejs",
           ]}
-          directions={{b: -20, r: 1}}
+          directions={{ b: -20, r: 1 }}
         />
         <WelcomeGreet />
         <div className="opacity-0 animate-hideDown">
@@ -168,7 +166,7 @@ export default function Home() {
         <div className="h-10"></div>
         <InViewport>
           <ProjectsConainer>
-            {filteredProjects.map((p, idx) => (
+            {filteredProjects.slice(0, 6).map((p, idx) => (
               <ProjectWrapper
                 key={p.project_id}
                 {...p}
@@ -180,7 +178,9 @@ export default function Home() {
             ))}
           </ProjectsConainer>
         </InViewport>
-        <p className="text-grey-70/60 text-sm text-center mt-8">{`Showing ${filteredProjects.length} projects`}</p>
+        <p className="text-grey-70/60 text-sm text-center mt-8">{`Showing ${
+          filteredProjects.length > 6 ? 6 : filteredProjects.length
+        } projects`}</p>
       </Section>
       <Section>
         <div className="w-full gap-2.5 flex flex-col justify-center items-center">
@@ -195,11 +195,13 @@ export default function Home() {
         </div>
         <div className="mt-18 mb-40 flex justify-center">
           <ExpandablePanelContainer>
-            {expPanelData.sort((a, b) => Number(a.level) - Number(b.level)).map((ep, i) => (
-              <InViewport key={ep.docId}>
-                <ExpandablePanel {...ep} open={i === 0} />
-              </InViewport>
-            ))}
+            {expPanelData
+              .sort((a, b) => Number(a.level) - Number(b.level))
+              .map((ep, i) => (
+                <InViewport key={ep.docId}>
+                  <ExpandablePanel {...ep} open={i === 0} />
+                </InViewport>
+              ))}
           </ExpandablePanelContainer>
         </div>
         <Contact />

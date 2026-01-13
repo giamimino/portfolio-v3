@@ -9,7 +9,11 @@ import { MouseEvent as ReactMouseEvent } from "react";
 import clsx from "clsx";
 
 export const ProjectsConainer = ({ children }: Children) => {
-  return <div className="flex gap-8 flex-wrap max-md:flex-col justify-center">{children}</div>;
+  return (
+    <div className="flex gap-8 max-lg:gap-6 flex-wrap max-md:flex-col justify-center">
+      {children}
+    </div>
+  );
 };
 
 export const Tag = ({ tag }: { tag: string }) => {
@@ -25,11 +29,12 @@ export const Category = ({
   context,
   color,
   active,
-  onClick
-}: CategoryType & { active: boolean, onClick: () => void }) => {
+  onClick,
+}: CategoryType & { active: boolean; onClick: () => void }) => {
   return (
     <button
-      className={clsx(`px-4 py-2
+      className={clsx(
+        `px-4 py-2
         backdrop-blur-sm rounded-full border border-white/10
        text-sm font-medium
         flex gap-1 items-center
@@ -37,7 +42,7 @@ export const Category = ({
         !active && "hover:bg-white/13 border-white/15",
         active ? "bg-white text-black" : "bg-white/6 text-grey-60"
       )}
-      onClick={onClick} 
+      onClick={onClick}
     >
       <Icon
         icon={icon}
@@ -75,15 +80,13 @@ export const ProjectWrapper = ({
     <div
       onMouseMove={handleMouseMove}
       onClick={() => window.open(project_github_url, "_blank")}
-      className="border border-1-b min-w-100 min-h-50 max-lg:min-w-75  max-md:min-w-full rounded-2xl p-6 max-lg:p-4 flex items-end relative overflow-hidden cursor-pointer hover:border-1-b-active hover:scale-105 transition-all duration-300 ease-out group animate-hideUpDown opacity-0"
+      className="border border-1-b min-w-99 min-h-50 max-lg:min-w-75  max-md:min-w-full rounded-2xl p-6 max-lg:p-4 flex items-end relative overflow-hidden cursor-pointer hover:border-1-b-active hover:scale-105 transition-all duration-300 ease-out group animate-hideUpDown opacity-0"
       style={{
-        animationDelay: `${delay}s`
+        animationDelay: `${delay}s`,
       }}
     >
       {/* Category */}
-      <div
-        className="absolute z-10 top-6 right-6 px-2 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/15 text-white text-xs font-bold tracking-widest flex gap-1 items-center group-hover:border-white/10 group-hover:bg-white/5 transition-all duration-500 max-lg:top-4 max-lg:right-4"
-      >
+      <div className="absolute z-10 top-6 right-6 px-2 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/15 text-white text-xs font-bold tracking-widest flex gap-1 items-center group-hover:border-white/10 group-hover:bg-white/5 transition-all duration-500 max-lg:top-4 max-lg:right-4">
         <Icon
           icon={category.icon}
           style={{ color: `var(${category.color})` }}
@@ -93,9 +96,7 @@ export const ProjectWrapper = ({
       </div>
 
       {/* Hover Content */}
-      <div
-        className="z-10 opacity-0 translate-y-2 absolute group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 bottom-5 left-6 flex flex-col gap-2.5 max-lg:bottom-3.5 max-lg:left-3.5 max-lg:gap-1.5"
-      >
+      <div className="z-10 opacity-0 translate-y-2 absolute group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 bottom-5 left-6 flex flex-col gap-2.5 max-lg:bottom-3.5 max-lg:left-3.5 max-lg:gap-1.5">
         <h1 className="text-white font-medium text-lg">{title}</h1>
         <p className="text-xs text-grey-80 font-medium">{description}</p>
 
