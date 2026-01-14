@@ -1,6 +1,7 @@
 "use client";
 import { FilterWrapper } from "@/components/common/filter-components";
 import Section from "@/components/common/section";
+import GenericLoading from "@/components/generic-loading";
 import {
   ProjectsConainer,
   ProjectWrapper,
@@ -20,6 +21,7 @@ export default function ProjectsPage() {
     { filter: string; type: "type" | "category" | "languages" }[]
   >([]);
   const { addNotification } = useNotificationsContext();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/project/get")
@@ -30,6 +32,7 @@ export default function ProjectsPage() {
         } else {
           addNotification({ id: cuid(), text: data.message ?? GENERIC_ERROR });
         }
+        setLoading(false);
       });
   }, [addNotification]);
 
@@ -112,37 +115,43 @@ export default function ProjectsPage() {
             <div className="mb-10 w-full flex justify-center">
               <SectionTitle>Projects</SectionTitle>
             </div>
-            <ProjectsConainer>
-              {filteredProjects.length !== 0 ? (
-                filteredProjects.map((p, idx) => (
-                  <ProjectWrapper
-                    {...p}
-                    key={p.project_id}
-                    category={
-                      Categories[p.category.replace(" ", "").toLowerCase()]
-                    }
-                    delay={idx / 6}
-                  />
-                ))
-              ) : (
-                <div className="flex flex-col gap-3.5 justify-center items-center">
-                  <Image
-                    src={"/search_icon.png"}
-                    width={64}
-                    height={64}
-                    alt="search_icon"
-                  />
-                  <div className="flex flex-col justify-center items-center">
-                    <h1 className="text-white text-2xl font-semibold">
-                      No Projects Found.
-                    </h1>
-                    <p className="text-white/60">
-                      Try selecting a different category.
-                    </p>
+            {loading ? (
+              <div>
+                <GenericLoading />
+              </div>
+            ) : (
+              <ProjectsConainer>
+                {filteredProjects.length !== 0 ? (
+                  filteredProjects.map((p, idx) => (
+                    <ProjectWrapper
+                      {...p}
+                      key={p.project_id}
+                      category={
+                        Categories[p.category.replace(" ", "").toLowerCase()]
+                      }
+                      delay={idx / 6}
+                    />
+                  ))
+                ) : (
+                  <div className="flex flex-col gap-3.5 justify-center items-center">
+                    <Image
+                      src={"/search_icon.png"}
+                      width={64}
+                      height={64}
+                      alt="search_icon"
+                    />
+                    <div className="flex flex-col justify-center items-center">
+                      <h1 className="text-white text-2xl font-semibold">
+                        No Projects Found.
+                      </h1>
+                      <p className="text-white/60">
+                        Try selecting a different category.
+                      </p>
+                    </div>
                   </div>
-                </div>
-              )}
-            </ProjectsConainer>
+                )}
+              </ProjectsConainer>
+            )}
           </Section>
         </div>
         <aside className={`sticky top-15 w-1/4 h-full`}>
