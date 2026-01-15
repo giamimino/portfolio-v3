@@ -17,6 +17,12 @@ import React, { useEffect, useMemo, useState } from "react";
 export default function AboutPage() {
   const [about, setAbout] = useState<About[]>([]);
   const { addNotification } = useNotificationsContext();
+  const [show, setShow] = useState(false);
+
+useEffect(() => {
+  setShow(window.innerWidth >= 720);
+}, []);
+
 
   useEffect(() => {
     fetch("/api/about/get")
@@ -90,7 +96,7 @@ export default function AboutPage() {
         </div>
         <aside className="w-1/4 h-full sticky top-15">
           <Section hFull>
-            {section && section.length > 0 && (
+            {section && section.length > 0 && show && (
               <TableOfContents sections={section} />
             )}
           </Section>
