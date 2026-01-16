@@ -56,7 +56,7 @@ export default function Header() {
         >
           GM
         </button>
-        <div className="flex items-center gap-6 text-white">
+        <div className="flex items-center gap-6 text-white max-sm:hidden">
           <nav className="flex items-center gap-3">
             {tabs.map(({ label, id }) => (
               <div

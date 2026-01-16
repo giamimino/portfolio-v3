@@ -1,9 +1,15 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 export default function CanvasIntro() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [show, setShow] = useState(true)
 
   useEffect(() => {
+    const innerWidth = window.innerWidth
+    if(innerWidth < 768) {
+      setShow(false)
+      return
+    }
     const canvas = canvasRef.current;
     if(canvas === null) return
     const ctx = canvas.getContext("2d");
@@ -54,6 +60,7 @@ export default function CanvasIntro() {
     };
   }, []);
 
+  if(!show) return null
   return (
     <canvas
       ref={canvasRef}

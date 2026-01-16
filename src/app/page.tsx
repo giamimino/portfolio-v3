@@ -18,13 +18,14 @@ import InViewport from "@/components/ui/InViewPort";
 import SectionTitle from "@/components/ui/section-title";
 import TagLine from "@/components/ui/tag-line";
 import { Categories } from "@/constants/category.constants";
-import { ExpPanelABout, Project } from "@/types/firestore";
+import { ExpPanelABout } from "@/types/firestore";
+import { useProjectsStore } from "@/zustand/projects-store";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const { projects, setProjects } = useProjectsStore();
   const [expPanelData, setExpPanelData] = useState<ExpPanelABout[]>([]);
   const [selectedCategory, selectCategory] = useState<{
     key: string;
@@ -32,13 +33,15 @@ export default function Home() {
   }>({ key: "allprojects", label: "All Projects" });
 
   useEffect(() => {
-    fetch("/api/project/get")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setProjects(data.docs);
-        }
-      });
+    if (projects.length === 0) {
+      fetch("/api/project/get")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setProjects(data.docs);
+          }
+        });
+    }
     fetch("/api/about/expanel/get")
       .then((res) => res.json())
       .then((data) => {
@@ -46,7 +49,7 @@ export default function Home() {
           setExpPanelData(data.docs);
         }
       });
-  }, []);
+  }, [setProjects]);
 
   const filteredProjects = useMemo(() => {
     if (!projects || !selectedCategory) return [];
@@ -56,7 +59,7 @@ export default function Home() {
     const result = projects.filter(
       (p) =>
         p.category.split(" ").join("").toLowerCase() ===
-        selectedCategory.key.toLowerCase()
+        selectedCategory.key.toLowerCase(),
     );
 
     if (result) return result;
@@ -67,7 +70,7 @@ export default function Home() {
   return (
     <div className="flex flex-col px-12 max-md:px-6 max-sm:px-3">
       <section className="mt-32 pb-20 flex flex-col gap-10 mb-12 relative w-full">
-        <div className="absolute w-full h-full -top-20 left-0 overflow-hidden">
+        <div className="absolute w-full h-full -top-20 left-0 overflow-hidden max-md:hidden">
           <CanvasIntro />
         </div>
         <Hero
@@ -153,7 +156,7 @@ export default function Home() {
           <TagLine label="my personal work" />
           <SectionTitle>Personal Projects</SectionTitle>
         </div>
-        <div className="flex justify-center gap-2.5">
+        <div className="flex justify-center gap-2.5 max-sm:gap-0">
           {Object.entries(Categories).map(([key, value]) => (
             <Category
               key={key}

@@ -38,7 +38,7 @@ export const Category = ({
         backdrop-blur-sm rounded-full border border-white/10
        text-sm font-medium
         flex gap-1 items-center
-        transition-all duration-400 select-none cursor-pointer`,
+        transition-all duration-400 select-none cursor-pointer max-sm:scale-90`,
         !active && "hover:bg-white/13 border-white/15",
         active ? "bg-white text-black" : "bg-white/6 text-grey-60"
       )}
@@ -80,7 +80,7 @@ export const ProjectWrapper = ({
     <div
       onMouseMove={handleMouseMove}
       onClick={() => window.open(project_github_url, "_blank")}
-      className="border border-1-b min-w-99 min-h-50 max-lg:min-w-75  max-md:min-w-full rounded-2xl p-6 max-lg:p-4 flex items-end relative overflow-hidden cursor-pointer hover:border-1-b-active hover:scale-105 transition-all duration-300 ease-out group animate-hideUpDown opacity-0"
+      className="border border-1-b min-w-99 min-h-50 max-lg:min-w-75  max-md:min-w-full max-md:h-65 max-sm:h-55 rounded-2xl p-6 max-lg:p-4 flex items-end relative overflow-hidden cursor-pointer hover:border-1-b-active hover:scale-105 transition-all duration-300 ease-out group animate-hideUpDown opacity-0"
       style={{
         animationDelay: `${delay}s`,
       }}

@@ -10,13 +10,13 @@ import SectionTitle from "@/components/ui/section-title";
 import { Categories } from "@/constants/category.constants";
 import { GENERIC_ERROR } from "@/constants/message.constants";
 import { useNotificationsContext } from "@/context/NotificationsContext";
-import { Project } from "@/types/firestore";
+import { useProjectsStore } from "@/zustand/projects-store";
 import cuid from "cuid";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const { projects, setProjects } = useProjectsStore();
   const [filters, setFilters] = useState<
     { filter: string; type: "type" | "category" | "languages" }[]
   >([]);
@@ -24,6 +24,11 @@ export default function ProjectsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (projects.length !== 0) {
+      setLoading(false);
+      return;
+    }
+
     fetch("/api/project/get")
       .then((res) => res.json())
       .then((data) => {
@@ -34,7 +39,7 @@ export default function ProjectsPage() {
         }
         setLoading(false);
       });
-  }, [addNotification]);
+  }, [addNotification, setProjects, projects.length]);
 
   const filteredProjects = useMemo(() => {
     if (filters.length === 0) return projects;
@@ -43,19 +48,19 @@ export default function ProjectsPage() {
     const categoriesFilter = new Set(
       filters
         .filter((f) => f.type === "category")
-        .map((f) => f.filter.toLowerCase())
+        .map((f) => f.filter.toLowerCase()),
     );
 
     const languagesFilter = new Set(
       filters
         .filter((f) => f.type === "languages")
-        .map((f) => f.filter.toLowerCase())
+        .map((f) => f.filter.toLowerCase()),
     );
 
     return projects.filter((f) => {
       const normalizedCategory = f.category.replace(" ", "").toLowerCase();
       const normalizedTags = f.tags.map((t) =>
-        t.replace(" ", "").toLowerCase()
+        t.replace(" ", "").toLowerCase(),
       );
 
       if (typeFilter && f.type !== typeFilter) return false;
@@ -101,7 +106,7 @@ export default function ProjectsPage() {
         id: p.replace(" ", "").toLowerCase(),
         label: p,
         type: "languages",
-      })
+      }),
     );
 
     return [...categories, ...languages];
@@ -109,8 +114,8 @@ export default function ProjectsPage() {
 
   return (
     <div className="px-4 pt-5">
-      <div className="flex">
-        <div className="w-3/4">
+      <div className="flex max-md:flex-col-reverse">
+        <div className="w-3/4 max-md:w-full">
           <Section customResponsivePedding="px-12 max-lg:px-10 max-md:px-2 py-18 max-lg:py-12 max-md:py-8 max-sm:py-4 max-xs:py-2">
             <div className="mb-10 w-full flex justify-center">
               <SectionTitle>Projects</SectionTitle>
@@ -154,7 +159,7 @@ export default function ProjectsPage() {
             )}
           </Section>
         </div>
-        <aside className={`sticky top-15 w-1/4 h-full`}>
+        <aside className={`sticky top-15 w-1/4 h-full max-md:flex max-md:w-full max-md:static`}>
           <Section customResponsivePedding="px-12 max-lg:px-10 max-md:px-2 py-18 max-lg:py-12 max-md:py-8 max-sm:py-4 max-xs:py-2">
             <div>
               <FilterWrapper
