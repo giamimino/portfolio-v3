@@ -196,8 +196,7 @@ export const ProjectInput = ({
     <input
       {...(ref ? { ref: ref } : {})}
       name={id}
-      className="py-2 px-1.5 flex text-white w-full
-      bg-black border border-white rounded-sm"
+      className="py-2 px-1.5 flex text-white w-full bg-black border border-white rounded-sm"
       type="text"
       id={id}
       {...(sent

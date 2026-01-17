@@ -4,13 +4,8 @@ import { AnimatePresence, motion, useScroll } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-
-const tabs = [
-  { id: "", label: "Home" },
-  { id: "projects", label: "Projects" },
-  { id: "about", label: "About" },
-  { id: "contact", label: "Contact" },
-];
+import { Menu } from "./common/menu/menu";
+import { tabs } from "@/constants/tabs";
 
 export default function Header() {
   const pathname = usePathname();
@@ -92,6 +87,9 @@ export default function Header() {
           >
             <Icon icon={"uil:github"} />
           </Link>
+        </div>
+        <div className="sm:hidden">
+          <Menu />
         </div>
       </div>
     </motion.header>
