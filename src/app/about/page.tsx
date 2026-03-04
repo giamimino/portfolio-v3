@@ -82,8 +82,8 @@ export default function AboutPage() {
                         <SectionTitle size={8}>{e.title}</SectionTitle>
                         <InViewport>
                           <div
-                            className="text-lg animate-hideUpDown "
-                            style={{ animationDuration: "0.6s" }}
+                            className="text-lg animate-hideUpDown opacity-0"
+                            style={{ animationDelay: "0.35s", animationDuration: "1s" }}
                           >
                             {TextConvert(e.text).map((t, idx) => (
                               <div
